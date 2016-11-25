@@ -46,7 +46,7 @@ class PlayerManager {
 				$player->charid = $charid;
 				$this->update($player);
 			}
-		} else if ($player->last_update < (time() - 86400)) {
+		} else if ($player->last_update < (time() - 14400)) {
 			$player2 = $this->lookup($name, $rk_num);
 			if ($player2 !== null) {
 				$player = $player2;

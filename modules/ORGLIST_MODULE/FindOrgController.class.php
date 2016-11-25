@@ -93,7 +93,7 @@ class FindOrgController {
 	}
 	
 	/**
-	 * @Event("timer(24hrs)")
+	 * @Event("timer(4hrs)")
 	 * @Description("Parses all orgs from People of Rubi Ka")
 	 */
 	public function parseAllOrgsEvent($eventObj) {
