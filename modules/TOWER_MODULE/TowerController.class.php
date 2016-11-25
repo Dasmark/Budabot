@@ -894,7 +894,7 @@ class TowerController {
 			if (!$whois->guild) {
 				$msg .= ")";
 			} else if (!$whois->guild_rank) {
-				$msg .= "<".strtolower($whois->faction).">$whois->guild<end>)";
+				$msg .= ", <".strtolower($whois->faction).">$whois->guild<end>)";
 			} else {
 				$msg .= ", $whois->guild_rank of <".strtolower($whois->faction).">$whois->guild<end>)";
 			}
