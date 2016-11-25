@@ -912,7 +912,7 @@ class TowerController {
 		if ($s > 0) {
 			$this->chatBot->sendGuild($msg, true);
 		}
-		if ($this->setting->guest_relay == 1) {
+                if ($this->settingManager->get("guest_relay") == 1) {
 			$this->chatBot->sendPrivate($msg, true);
 		}                                   
 
