@@ -871,7 +871,7 @@ class TowerController {
 		$targetorg = "<".strtolower($def_side).">".$def_guild."<end>";
 		
 		// Starting tower message to org/private chat
-		$msg .= "";
+		$msg .= "<font color=#ff63ff>[TOWERS]<end> ";
 		
 		// tower_attack_spam >= 2 (normal) includes attacker stats
 		if ($this->settingManager->get("tower_attack_spam") >= 2) {
