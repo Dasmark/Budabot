@@ -37,6 +37,26 @@ class AltInfo {
 		}
 	}
 
+	public function get_profession_icon_small($profession) {
+		switch ($profession) {
+			case "Adventurer":      return "<img src=tdb://id:GFX_GUI_ICON_PROFESSION_6>";
+			case "Agent":           return "<img src=tdb://id:GFX_GUI_ICON_PROFESSION_5>";
+			case "Bureaucrat":      return "<img src=tdb://id:GFX_GUI_ICON_PROFESSION_8>";
+			case "Doctor":          return "<img src=tdb://id:GFX_GUI_ICON_PROFESSION_10>";
+			case "Enforcer":        return "<img src=tdb://id:GFX_GUI_ICON_PROFESSION_9>";
+			case "Engineer":        return "<img src=tdb://id:GFX_GUI_ICON_PROFESSION_3>";
+			case "Fixer":           return "<img src=tdb://id:GFX_GUI_ICON_PROFESSION_4>";
+			case "Keeper":          return "<img src=tdb://id:GFX_GUI_ICON_PROFESSION_14>";
+			case "Martial Artist":  return "<img src=tdb://id:GFX_GUI_ICON_PROFESSION_2>";
+			case "Meta-Physicist":  return "<img src=tdb://id:GFX_GUI_ICON_PROFESSION_12>";
+			case "Nano-Technician": return "<img src=tdb://id:GFX_GUI_ICON_PROFESSION_11>";
+			case "Soldier":         return "<img src=tdb://id:GFX_GUI_ICON_PROFESSION_1>";
+			case "Shade":           return "<img src=tdb://id:GFX_GUI_ICON_PROFESSION_15>";
+			case "Trader":          return "<img src=tdb://id:GFX_GUI_ICON_PROFESSION_7>";
+			default: return "";
+		}
+	}
+
 	public function getAltsBlob($showValidateLinks = false, $firstPageOnly = false) {
 		$db = Registry::getInstance('db');
 		$settingManager = Registry::getInstance('settingManager');
@@ -48,10 +68,11 @@ class AltInfo {
 			return "No registered alts.";
 		}
 		
+		$character = $playerManager->getByName($this->main);
+		$blob = $this->get_profession_icon_small($character->profession).' ';
 		$online = $buddylistManager->isOnline($this->main);
 		$blob .= $this->formatCharName($this->main, $online);
 
-		$character = $playerManager->getByName($this->main);
 		if ($character !== null) {
 			$blob .= " ({$character->level}/<green>{$character->ai_level}<end> {$character->profession})";
 		}
@@ -63,6 +84,7 @@ class AltInfo {
 		$count = count($data) + 1;
 		forEach ($data as $row) {
 			$online = $buddylistManager->isOnline($row->alt);
+			$blob .= $this->get_profession_icon_small($row->profession).' ';
 			$blob .= $this->formatCharName($row->alt, $online);
 			if ($row->profession !== null) {
 				$blob .= " ({$row->level}/<green>{$row->ai_level}<end> {$row->profession})";
