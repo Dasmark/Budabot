@@ -361,7 +361,6 @@ class OnlineController {
 				} else {
 					// fancy delimiters
 					$blob .= "\n";
-					$blob .= "<img src=tdb://id:GFX_GUI_FRIENDLIST_SPLITTER>\n";
 
 					if ($row->profession == "Adventurer") {
 						$blob .= "<img src=tdb://id:GFX_GUI_ICON_PROFESSION_6>";
@@ -396,7 +395,6 @@ class OnlineController {
 					}
 
 					$blob .= " <highlight>$row->profession<end>\n";
-					$blob .= "<img src=tdb://id:GFX_GUI_FRIENDLIST_SPLITTER>\n";
 				}
 
 				$current_profession = $row->profession;
