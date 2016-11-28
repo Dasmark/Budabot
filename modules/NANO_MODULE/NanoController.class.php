@@ -66,7 +66,7 @@ class NanoController {
 
 	/**
 	 * @HandlesCommand("nano")
-	 * @Matches("/^nano (.+)$/i")
+	 * @Matches("/^nanos? (.+)$/i")
 	 */
 	public function nanoCommand($message, $channel, $sender, $sendto, $args) {
 		$search = $args[1];
