@@ -875,30 +875,25 @@ class TowerController {
 		
 		// tower_attack_spam >= 2 (normal) includes attacker stats
 		if ($this->settingManager->get("tower_attack_spam") >= 2) {
-		
-			if ($whois->profession == "") {
-				$msg .= "<".strtolower($whois->faction).">$att_player<end> (Unknown";
-			} else {
-				if (!$whois->guild){
-					$msg .= "<".strtolower($whois->faction).">$att_player<end>";
-				} else {
-					$msg .= "<font color=#AAAAAA>$att_player<end>";
-				}
-				$msg .= " (<font color=#AAAAAA>$whois->level<end>";
-				if ($whois->ai_level) {
-					$msg .= "/<green>$whois->ai_level<end>";
-				}
-				$msg .= ", $whois->breed <font color=#AAAAAA>$whois->profession<end>";
-			}
-		
 			if (!$whois->guild) {
-				$msg .= ")";
-			} else if (!$whois->guild_rank) {
-				$msg .= ", <".strtolower($whois->faction).">$whois->guild<end>)";
+				$msg .= "<font color=#AAAAAA>Player $att_player<end>";
 			} else {
-				$msg .= ", $whois->guild_rank of <".strtolower($whois->faction).">$whois->guild<end>)";
+				$msg .= "<".strtolower($whois->faction).">$whois->guild<end>";
 			}
+			$msg .= " attacked $targetorg [$more] - ";
+
+			$msg .= "<".strtolower($whois->faction).">$att_player<end>";
+			$msg .= " (<font color=#AAAAAA>$whois->level<end>";
+			if ($whois->ai_level) {
+				$msg .= "/<green>$whois->ai_level<end>";
+			}
+			$msg .= ", $whois->breed <font color=#AAAAAA>$whois->profession<end>";
 		
+			if ($whois->guild_rank) {
+				$msg .= ", $whois->guild_rank";
+			}
+			$msg .= ")";
+
 		} else if ($whois->guild) {
 			$msg .= "<".strtolower($whois->faction).">$whois->guild<end>";
 		} else {
