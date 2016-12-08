@@ -895,12 +895,10 @@ class TowerController {
 			$msg .= ")";
 
 		} else if ($whois->guild) {
-			$msg .= "<".strtolower($whois->faction).">$whois->guild<end>";
+			$msg .= "<".strtolower($whois->faction).">$whois->guild<end> attacked $targetorg [$more]";
 		} else {
-			$msg .= "<".strtolower($whois->faction).">$att_player<end>";
+			$msg .= "<".strtolower($whois->faction).">$att_player<end> attacked $targetorg [$more]";
 		}
-		
-		$msg .= " attacked $targetorg [$more]";
 		
 		$s = $this->settingManager->get("tower_attack_spam");
 		
