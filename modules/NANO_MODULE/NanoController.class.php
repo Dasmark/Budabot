@@ -162,7 +162,7 @@ class NanoController {
 				$blob .= $this->text->makeItem($row->lowid, $row->lowid, $row->lowql, $row->name);
 				$blob .= " [$row->lowql] $row->location";
 				if ($row->profession) {
-					$profs = $this->profToArray($row->profession)
+					$profs = $this->profToArray($row->profession);
 					$blob .= " - ".join("<end>,<highlight>", $profs)."<end> ";
 				}
 				if ($row->nanoline_name) {
