@@ -83,7 +83,7 @@ class NanoController {
 		P_MONSTER => "Monster",
 		P_KEEPER => "Keeper",
 		P_SHADE => "Shade",
-	]
+	];
 	
 	/**
 	 * This handler is called on bot startup.
