@@ -198,12 +198,14 @@ class Util {
 				break;
 			case "sol":
 			case "sold":
+			case "solja":
 			case "soldier":
 				$prof = "Soldier";
 				break;
+			case "trader":
+			case "trad":
 			case "tra":
 			case "trad":
-			case "trader":
 				$prof = "Trader";
 				break;
 			case "shade":
