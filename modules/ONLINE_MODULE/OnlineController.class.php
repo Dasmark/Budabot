@@ -353,6 +353,7 @@ class OnlineController {
 
 		if ($totalCount > 0) {
 			$blob = '';
+                        $data = array_merge($orgData, $privData);
 			forEach ($data as $row) {
 				if ($current_profession != $row->profession) {
 					$blob .= "<pagebreak>";
