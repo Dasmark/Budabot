@@ -351,69 +351,75 @@ class OnlineController {
 			$blob .= "\n\n";
 		}
 
-		$blob = '';
-		forEach ($data as $row) {
-			if ($current_profession != $row->profession) {
-				$blob .= "<pagebreak>";
-				if ($this->settingManager->get("fancy_online") == 0) {
-					// old style delimiters
-					$blob .= "\n<tab><highlight>$row->profession<end>\n";
-				} else {
-					// fancy delimiters
-					$blob .= "\n";
-
-					if ($row->profession == "Adventurer") {
-						$blob .= "<img src=tdb://id:GFX_GUI_ICON_PROFESSION_6>";
-					} else if ($row->profession == "Agent") {
-						$blob .= "<img src=tdb://id:GFX_GUI_ICON_PROFESSION_5>";
-					} else if ($row->profession == "Bureaucrat") {
-						$blob .= "<img src=tdb://id:GFX_GUI_ICON_PROFESSION_8>";
-					} else if ($row->profession == "Doctor") {
-						$blob .= "<img src=tdb://id:GFX_GUI_ICON_PROFESSION_10>";
-					} else if ($row->profession == "Enforcer") {
-						$blob .= "<img src=tdb://id:GFX_GUI_ICON_PROFESSION_9>";
-					} else if ($row->profession == "Engineer") {
-						$blob .= "<img src=tdb://id:GFX_GUI_ICON_PROFESSION_3>";
-					} else if ($row->profession == "Fixer") {
-						$blob .= "<img src=tdb://id:GFX_GUI_ICON_PROFESSION_4>";
-					} else if ($row->profession == "Keeper") {
-						$blob .= "<img src=tdb://id:GFX_GUI_ICON_PROFESSION_14>";
-					} else if ($row->profession == "Martial Artist") {
-						$blob .= "<img src=tdb://id:GFX_GUI_ICON_PROFESSION_2>";
-					} else if ($row->profession == "Meta-Physicist") {
-						$blob .= "<img src=tdb://id:GFX_GUI_ICON_PROFESSION_12>";
-					} else if ($row->profession == "Nano-Technician") {
-						$blob .= "<img src=tdb://id:GFX_GUI_ICON_PROFESSION_11>";
-					} else if ($row->profession == "Soldier") {
-						$blob .= "<img src=tdb://id:GFX_GUI_ICON_PROFESSION_1>";
-					} else if ($row->profession == "Shade") {
-						$blob .= "<img src=tdb://id:GFX_GUI_ICON_PROFESSION_15>";
-					} else if ($row->profession == "Trader") {
-						$blob .= "<img src=tdb://id:GFX_GUI_ICON_PROFESSION_7>";
+		if ($totalCount > 0) {
+			$blob = '';
+			forEach ($data as $row) {
+				if ($current_profession != $row->profession) {
+					$blob .= "<pagebreak>";
+					if ($this->settingManager->get("fancy_online") == 0) {
+						// old style delimiters
+						$blob .= "\n<tab><highlight>$row->profession<end>\n";
 					} else {
-						$blob .= $this->text->makeImage(46268);
+						// fancy delimiters
+						$blob .= "\n";
+
+						if ($row->profession == "Adventurer") {
+							$blob .= "<img src=tdb://id:GFX_GUI_ICON_PROFESSION_6>";
+						} else if ($row->profession == "Agent") {
+							$blob .= "<img src=tdb://id:GFX_GUI_ICON_PROFESSION_5>";
+						} else if ($row->profession == "Bureaucrat") {
+							$blob .= "<img src=tdb://id:GFX_GUI_ICON_PROFESSION_8>";
+						} else if ($row->profession == "Doctor") {
+							$blob .= "<img src=tdb://id:GFX_GUI_ICON_PROFESSION_10>";
+						} else if ($row->profession == "Enforcer") {
+							$blob .= "<img src=tdb://id:GFX_GUI_ICON_PROFESSION_9>";
+						} else if ($row->profession == "Engineer") {
+							$blob .= "<img src=tdb://id:GFX_GUI_ICON_PROFESSION_3>";
+						} else if ($row->profession == "Fixer") {
+							$blob .= "<img src=tdb://id:GFX_GUI_ICON_PROFESSION_4>";
+						} else if ($row->profession == "Keeper") {
+							$blob .= "<img src=tdb://id:GFX_GUI_ICON_PROFESSION_14>";
+						} else if ($row->profession == "Martial Artist") {
+							$blob .= "<img src=tdb://id:GFX_GUI_ICON_PROFESSION_2>";
+						} else if ($row->profession == "Meta-Physicist") {
+							$blob .= "<img src=tdb://id:GFX_GUI_ICON_PROFESSION_12>";
+						} else if ($row->profession == "Nano-Technician") {
+							$blob .= "<img src=tdb://id:GFX_GUI_ICON_PROFESSION_11>";
+						} else if ($row->profession == "Soldier") {
+							$blob .= "<img src=tdb://id:GFX_GUI_ICON_PROFESSION_1>";
+						} else if ($row->profession == "Shade") {
+							$blob .= "<img src=tdb://id:GFX_GUI_ICON_PROFESSION_15>";
+						} else if ($row->profession == "Trader") {
+							$blob .= "<img src=tdb://id:GFX_GUI_ICON_PROFESSION_7>";
+						} else {
+							$blob .= $this->text->makeImage(46268);
+						}
+
+						$blob .= " <highlight>$row->profession<end>\n";
 					}
 
-					$blob .= " <highlight>$row->profession<end>\n";
+					$current_profession = $row->profession;
 				}
 
-				$current_profession = $row->profession;
-			}
+				$name = $this->text->makeChatcmd($row->name, "/tell $row->name");
+				$afk  = $this->getAfkInfo($row->afk, $fancyColon);
+				$alt  = ($show_alts == true) ? $this->getAltCharInfo($row->name, $fancyColon) : "";
 
-			$name = $this->text->makeChatcmd($row->name, "/tell $row->name");
-			$afk  = $this->getAfkInfo($row->afk, $fancyColon);
-			$alt  = ($show_alts == true) ? $this->getAltCharInfo($row->name, $fancyColon) : "";
-
-			switch ($row->profession) {
-				case "":
-					$blob .= "<tab><tab>$name - Unknown$alt\n";
-					break;
-				default:
-					$admin = ($show_alts == true) ? $this->getAdminInfo($row->name, $fancyColon) : "";
-					$guild = $this->getOrgInfo($show_org_info, $fancyColon, $row->guild, $row->guild_rank);
-					$blob .= "<tab><tab>$name (Lvl $row->level/<green>$row->ai_level<end>)$guild$afk$alt$admin\n";
+				switch ($row->profession) {
+					case "":
+						$blob .= "<tab><tab>$name - Unknown$alt\n";
+						break;
+					default:
+						$admin = ($show_alts == true) ? $this->getAdminInfo($row->name, $fancyColon) : "";
+						$guild = $this->getOrgInfo($show_org_info, $fancyColon, $row->guild, $row->guild_rank);
+						$blob .= "<tab><tab>$name (Lvl $row->level/<green>$row->ai_level<end>)$guild$afk$alt$admin\n";
+				}
 			}
+			$msg = $this->text->makeBlob("Players Online ($totalMain)", $blob);
+		} else {
+			$msg = "Players Online (0)";
 		}
+
 		return $msg;
 	}
 
