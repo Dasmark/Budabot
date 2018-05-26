@@ -173,7 +173,7 @@ class WhatBuffsController {
 			JOIN item_types i ON aodb.highid = i.item_id
 			JOIN item_buffs b ON aodb.highid = b.item_id
 			JOIN skills s ON b.attribute_id = s.id
-			WHERE i.item_type = ? AND s.id = ?
+			WHERE i.item_type = ? AND s.id = ? AND amount > 0
 			ORDER BY amount DESC";
 		$data = $this->db->query($sql, $category, $skill->id);
 
