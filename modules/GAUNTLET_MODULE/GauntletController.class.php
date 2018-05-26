@@ -165,8 +165,8 @@ class GauntletController {
 
     private function checkalt($name,$name2) {
         $result = false;
-        $altInfo = $this->altsController->get_alt_info($name2);
-        forEach ($altInfo->get_all_alts() as $alt) {
+        $altInfo = $this->altsController->getAltInfo($name2);
+        forEach ($altInfo->getAllAlts() as $alt) {
             if ($name == $alt) { $result = true; break;}
             }
         return $result;
@@ -178,7 +178,7 @@ class GauntletController {
 	 */
 	public function gautradeCommand($message, $channel, $sender, $sendto, $args) {
         $info = file_get_contents(getcwd()."/modules/".$this->moduleName.'/gautrade');
-        $msg = $this->text->make_legacy_blob(".:Gauntlet Tradeskills:.", $info);
+        $msg = $this->text->makeLegacyBlob(".:Gauntlet Tradeskills:.", $info);
         $sendto->reply($msg);
     }
 
@@ -214,11 +214,11 @@ class GauntletController {
         if(($args[1] <= 9)&&($args[1] >= 0)){
             if($this->checkalt($sender,$args[2])){
                 $msg = "Subscription for the ".$this->gauntgetTime($args[1])." Gauntletraid with the main $args[2]: \n\n";
-                $altInfo = $this->altsController->get_alt_info($args[2]);
-                forEach ($altInfo->get_all_alts() as $alt) {
+                $altInfo = $this->altsController->getAltInfo($args[2]);
+                forEach ($altInfo->getAllAlts() as $alt) {
                     $msg .= "     -<a href='chatcmd:///tell <myname> <symbol>gauntlet sub $args[1] $alt'>$alt</a>\n";
                 }
-                $msg = $this->text->make_blob(".:Un/Subscribe:.", $msg);
+                $msg = $this->text->makeBlob(".:Un/Subscribe:.", $msg);
             } else {$msg="This is none of your chars!";}
         } else {$msg="This raid doesnt exist!";}
         $sendto->reply($msg, $sendto);
@@ -275,8 +275,8 @@ class GauntletController {
             $list .= "Timer updated by <highlight>".$creatorinfo['creator']."<end> at <highlight>".$this->tmTime($creatorinfo['createtime'])."<end>\n\n";
 
             //alts handler more or less 8! Every blob has its max size, so we need such a thing
-            $altInfo = $this->altsController->get_alt_info($sender);
-            if (count($altInfo->get_all_alts())<9) { $aashort = false;}
+            $altInfo = $this->altsController->getAltInfo($sender);
+            if (count($altInfo->getAllAlts())<9) { $aashort = false;}
             else { $aashort = true;};
 
             //spawntimes
@@ -292,7 +292,7 @@ class GauntletController {
                 }else { $list .= "         Sub/Unsub with |";}
                 //add altslist
                 if ($aashort == false){
-                    forEach ($altInfo->get_all_alts() as $alt) {
+                    forEach ($altInfo->getAllAlts() as $alt) {
                         $list .= "<a href='chatcmd:///tell <myname> <symbol>gauntlet sub $z $alt'>$alt</a>|";
                     }
                 } else {
@@ -301,7 +301,7 @@ class GauntletController {
                 }
                 $list .= "\n\n";
                 }
-            $link = $this->text->make_blob(".:Spawntimes:.", $list);
+            $link = $this->text->makeBlob(".:Spawntimes:.", $list);
 
             //if portal is open
             $gptime = time()+61620-$gautimer;
@@ -386,7 +386,7 @@ class GauntletController {
             }
         }
         $list .= "                         <a href='chatcmd:///tell <myname> <symbol>gaulist $name $ac'>-==[Refresh]==-</a>";
-        $link = $this->text->make_blob($name, $list);
+        $link = $this->text->makeBlob($name, $list);
         $tem = "Bastion-Inventar: ".$link;
         return $tem;
     }
@@ -619,8 +619,8 @@ class GauntletController {
 
     private function gauAlert($tstr) {
         foreach($this->gaumem[0] as $key => $value) {
-            $altInfo = $this->altsController->get_alt_info($key);
-            forEach ($altInfo->get_online_alts() as $name) {
+            $altInfo = $this->altsController->getAltInfo($key);
+            forEach ($altInfo->getOnlineAlts() as $name) {
                 if ($name<>$key) {
                     $this->chatBot->sendTell("<red>###Gauntlet is in $tstr (subscribed with $key)!!!###<end>", $name);
                 }else{
