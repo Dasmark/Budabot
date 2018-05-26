@@ -669,7 +669,7 @@ class GauntletController {
                 if ($alertTime == 0){
                     $alert->message = $this->settingManager->get('gauntlet_color')."Vizaresh <highlight>VULNERABLE/DOWN<end>!<end>";
                 }else if ($alertTime == 420) {
-                    $alert->message = $this->settingManager->get('gauntlet_color')."Vizaresh <highlight>SPAWNT (7 min left)<end>!<end>";
+                    $alert->message = $this->settingManager->get('gauntlet_color')."Vizaresh <highlight>SPAWNED (7 min left)<end>!<end>";
                 } else if ($alertTime == (61620-$portaltime)) {
                     $alert->message = $this->settingManager->get('gauntlet_color')."Portal is <highlight>GONE<end>!<end>";
                 } else if ($alertTime > (61620-$portaltime)) {
