@@ -33,6 +33,22 @@ namespace Budabot\User\Modules;
  */
 class NanoController {
 
+	const P_SOLDIER = 0;
+	const P_MARTIAL_ARTIST = 1;
+	const P_ENGINEER = 2;
+	const P_FIXER = 3;
+	const P_AGENT = 4;
+	const P_ADVENTURER = 5;
+	const P_TRADER = 6;
+	const P_BUREAUCRAT = 7;
+	const P_ENFORCER = 8;
+	const P_DOCTOR = 9;
+	const P_NANO_TECHNICIAN = 10;
+	const P_META_PHYSICIST = 11;
+	const P_MONSTER = 12;
+	const P_KEEPER = 13;
+	const P_SHADE = 14;
+
 	/**
 	 * Name of the module.
 	 * Set automatically by module loader.
@@ -50,6 +66,24 @@ class NanoController {
 	
 	/** @Inject */
 	public $util;
+
+	public $profMapping = [
+		P_SOLDIER => "Soldier",
+		P_MARTIAL_ARTIST => "Martial Artist",
+		P_ENGINEER => "Engineer",
+		P_FIXER => "Fixer",
+		P_AGENT => "Agent",
+		P_ADVENTURER => "Adventurer",
+		P_TRADER => "Trader",
+		P_BUREAUCRAT => "Bureaucrat",
+		P_ENFORCER => "Enforcer",
+		P_DOCTOR => "Doctor",
+		P_NANO_TECHNICIAN => "Nano Technician",
+		P_META_PHYSICIST => "Meta Physicist",
+		P_MONSTER => "Monster",
+		P_KEEPER => "Keeper",
+		P_SHADE => "Shade",
+	]
 	
 	/**
 	 * This handler is called on bot startup.
@@ -62,6 +96,17 @@ class NanoController {
 		
 		$this->settingManager->add($this->moduleName, 'maxnano', 'Number of Nanos shown on the list', 'edit', "number", '40', '30;40;50;60', "", "mod");
 		$this->settingManager->add($this->moduleName, "shownanolineicons", "Show icons for the nanolines", "edit", "options", "0", "true;false", "1;0");
+	}
+
+	public function profToArray($profession) {
+		$professions = [];
+		foreach ($this->profMapping as $id => $name) {
+			$power = pow(2, $id);
+			if ( ($profession & $power) === $power ) {
+				$professions[] = $name;
+			}
+		}
+		return $professions;
 	}
 
 	/**
@@ -116,6 +161,13 @@ class NanoController {
 				}
 				$blob .= $this->text->makeItem($row->lowid, $row->lowid, $row->lowql, $row->name);
 				$blob .= " [$row->lowql] $row->location";
+				if ($row->profession) {
+					$profs = $this->profToArray($row->profession)
+					$blob .= " - ".join("<end>,<highlight>", $profs)."<end> ";
+				}
+				if ($row->nanoline_name) {
+					$blob .= $this->text->makeChatcmd($row->nanoline_name . " Nanoline", "/tell <myname> nanolines $row->nanoline_id");
+				}
 				$blob .= "\n";
 			}
 			$blob .= $this->getFooter();
@@ -269,7 +321,8 @@ class NanoController {
 				$blob .= $this->text->makeItem($row->lowid, $row->lowid, $row->lowql, $row->name);
 				$blob .= " [$row->lowql] $row->location";
 				if ($row->profession) {
-					$blob .= " - <highlight>$row->profession<end>";
+					$profs = $this->profToArray($row->profession)
+					$blob .= " - ".join("<end>,<highlight>", $profs)."<end> ";
 				}
 				$blob .= "\n";
 			}
